@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import Index from '@/views/Index.vue'
-import Category from '@/views/Category.vue'
+import Home from '@/views/Layout/Home/Index.vue'
+import Login from '@/views/Login/Index.vue'
+import Index from '@/views/Layout/Index.vue'
+import Category from '@/views/Layout/Category/index.vue'
 
 
 const routes = [
