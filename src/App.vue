@@ -6,6 +6,7 @@ getCategory().then(res=>{console.log(res.data);
 
 <template>
   <div>
+    <router-view></router-view>
     <el-button type="primary">Primary</el-button>
   </div>
 </template>
