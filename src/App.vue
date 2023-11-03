@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getCategory } from '@/apis/Testapi';
-getCategory().then(res=>{console.log(res.data);
+getCategory().then(res => {
+  console.log(res.data);
 })
 </script>
 
@@ -8,8 +9,13 @@ getCategory().then(res=>{console.log(res.data);
   <div>
     <router-view></router-view>
     <el-button type="primary">Primary</el-button>
+    <div class="test">text</div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss">
+
+.test {
+  color: $priceColor;
+}
 </style>
