@@ -1,5 +1,32 @@
 <script setup lang="ts">
 import { Search, ShoppingCart } from '@element-plus/icons-vue'
+import { ref, onMounted } from 'vue'
+import { getCategoryApi } from '@/apis/CategoryApi';
+
+interface good {
+  id: string,
+  name: string,
+  desc: string,
+  picture: string,
+  price: string
+}
+
+interface category {
+  id: string,
+  name: string,
+  picture: string,
+  children: category[],
+  goods: good[],
+}
+
+const categoryList = ref<category[]>([])
+const getCategory = async () => {
+  let res = await getCategoryApi()
+  categoryList.value = res.data.result
+}
+onMounted(() => {
+  getCategory()
+})
 </script>
 
 <template>
@@ -13,16 +40,7 @@ import { Search, ShoppingCart } from '@element-plus/icons-vue'
       <el-col :span="14">
         <div class="nav">
           <el-menu mode="horizontal" :ellipsis="false">
-            <el-menu-item>首页</el-menu-item>
-            <el-menu-item>居家</el-menu-item>
-            <el-menu-item>美食</el-menu-item>
-            <el-menu-item>服饰</el-menu-item>
-            <el-menu-item>母婴</el-menu-item>
-            <el-menu-item>个护</el-menu-item>
-            <el-menu-item>严选</el-menu-item>
-            <el-menu-item>数码</el-menu-item>
-            <el-menu-item>运动</el-menu-item>
-            <el-menu-item>杂项</el-menu-item>
+            <el-menu-item v-for="item in categoryList" :key="item.id">{{ item.name }}</el-menu-item>
           </el-menu>
         </div>
       </el-col>
