@@ -26,10 +26,10 @@ export default defineConfig({
       scss: {
         // 自动导入scss文件
         additionalData: `
-          @use "@/styles/element/index.scss" as *;
-          @use "@/styles/var.scss" as *;
-          @use "@/styles/common.scss" as *;
+        @use "@/styles/var.scss" as *;
+        @use "@/styles/common.scss" as *;
         `,
+        // @use "@/styles/element/index.scss" as *;
       }
     }
 }

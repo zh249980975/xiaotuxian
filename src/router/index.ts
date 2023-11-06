@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Layout/Home/Index.vue'
 import Login from '@/views/Login/Index.vue'
 import Index from '@/views/Layout/Index.vue'
-import Category from '@/views/Layout/Category/index.vue'
+import Category from '@/views/Layout/Category/Index.vue'
 
 
 const routes = [
@@ -18,6 +18,9 @@ const routes = [
     }, {
       path: '/index/category',
       component: Category
+    }, {
+      path:'/index',
+      redirect:'/index/home'
     }]
   }, {
     path: '/login',
