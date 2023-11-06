@@ -1,31 +1,11 @@
 <script setup lang="ts">
 import { Search, ShoppingCart } from '@element-plus/icons-vue'
-import { ref, onMounted } from 'vue'
-import { getCategoryApi } from '@/apis/CategoryApi';
+import { onMounted } from 'vue'
+import useCategoryStore from '@/stores/categoryStore'
 
-interface good {
-  id: string,
-  name: string,
-  desc: string,
-  picture: string,
-  price: string
-}
-
-interface category {
-  id: string,
-  name: string,
-  picture: string,
-  children: category[],
-  goods: good[],
-}
-
-const categoryList = ref<category[]>([])
-const getCategory = async () => {
-  let res = await getCategoryApi()
-  categoryList.value = res.data.result
-}
+const store = useCategoryStore()
 onMounted(() => {
-  getCategory()
+  store.getCategory()
 })
 </script>
 
@@ -40,7 +20,7 @@ onMounted(() => {
       <el-col :span="14">
         <div class="nav">
           <el-menu mode="horizontal" :ellipsis="false">
-            <el-menu-item v-for="item in categoryList" :key="item.id">{{ item.name }}</el-menu-item>
+            <el-menu-item v-for="item in store.categoryList" :key="item.id">{{ item.name }}</el-menu-item>
           </el-menu>
         </div>
       </el-col>
