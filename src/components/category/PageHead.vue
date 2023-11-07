@@ -3,7 +3,7 @@
     <el-breadcrumb-item :to="{ path: '/' }">
       首页
     </el-breadcrumb-item>
-    <el-breadcrumb-item>{{ title }}</el-breadcrumb-item>
+    <el-breadcrumb-item>{{ props.title }}</el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 <script setup lang="ts">

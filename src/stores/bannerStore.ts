@@ -13,8 +13,8 @@ const useBannerStore = defineStore('banner', () => {
 
   const pictureList = ref<picture[]>([])
 
-  const getPictureList = async () => {
-    let res = await getPictureApi()
+  const getPictureList = async (distributionSite:string) => {
+    let res = await getPictureApi(distributionSite)
     pictureList.value = res.data.result
   }
 

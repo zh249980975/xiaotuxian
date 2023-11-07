@@ -1,7 +1,10 @@
 import instance from '@/utils/http'
 
-export function getPictureApi() {
+export function getPictureApi(distributionSite:string) {
   return instance({
-    url:'/home/banner'
+    url:'/home/banner',
+    params:{
+      distributionSite
+    }
   })
 }
