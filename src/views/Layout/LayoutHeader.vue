@@ -19,8 +19,13 @@ onMounted(() => {
       </el-col>
       <el-col :span="14">
         <div class="nav">
-          <el-menu mode="horizontal" :ellipsis="false">
-            <el-menu-item v-for="item in store.categoryList" :key="item.id">{{ item.name }}</el-menu-item>
+          <el-menu mode="horizontal" :ellipsis="false" :router="true">
+            <el-menu-item index="/index/home">
+              首页
+            </el-menu-item>
+            <el-menu-item v-for="item in store.categoryList" :key="item.id" :index="`/index/category/${item.id}`">
+              {{ item.name }}
+            </el-menu-item>
           </el-menu>
         </div>
       </el-col>

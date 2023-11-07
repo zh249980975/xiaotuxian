@@ -9,20 +9,20 @@ const routes = [
   {
     path: '/',
     redirect: '/index'
-  }, {
+  },{
     path: '/index',
     component: Index,
     children: [{
       path: '/index/home',
       component: Home
     }, {
-      path: '/index/category',
+      path: '/index/category/:id',
       component: Category
     }, {
       path:'/index',
       redirect:'/index/home'
     }]
-  }, {
+  },{
     path: '/login',
     component: Login
   }
