@@ -1,11 +1,66 @@
-<template>
-  <div>
-    new
-  </div>
-</template>
-<script lang="ts" setup>
+<script setup lang="ts">
+import useNewStore from '@/stores/newStore';
+import HomePanel from '../HomePanel.vue';
+import { onMounted } from 'vue';
+const store = useNewStore()
 
+onMounted(() => {
+  store.getNewList()
+})
 </script>
-<style lang="">
-  
+
+<template>
+  <HomePanel title="新鲜好物" sub-title="人气爆款 不容错过">
+    <template v-slot:main>
+      <ul class="goods-list">
+        <li v-for="item in store.newList" :key="item.id">
+          <RouterLink to="/">
+            <img :src="item.picture" alt="" />
+            <p class="name">{{ item.name }}</p>
+            <p class="price">&yen;{{ item.price }}</p>
+          </RouterLink>
+        </li>
+      </ul>
+    </template>
+  </HomePanel>
+</template>
+
+
+<style scoped lang='scss'>
+.goods-list {
+  display: flex;
+  justify-content: space-between;
+  height: 406px;
+
+  li {
+    width: 306px;
+    height: 406px;
+
+    background: #f0f9f4;
+    transition: all .5s;
+
+    &:hover {
+      transform: translate3d(0, -3px, 0);
+      box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+    }
+
+    img {
+      width: 306px;
+      height: 306px;
+    }
+
+    p {
+      font-size: 22px;
+      padding-top: 12px;
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .price {
+      color: $priceColor;
+    }
+  }
+}
 </style>

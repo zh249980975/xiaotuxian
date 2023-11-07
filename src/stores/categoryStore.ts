@@ -25,8 +25,6 @@ const useCategoryStore = defineStore('category', () => {
   const getCategory = async () => {
     let res = await getCategoryApi()
     categoryList.value = res.data.result
-    console.log(categoryList.value);
-    
   }
 
   return {
