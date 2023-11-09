@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb separator="/">
+  <el-breadcrumb separator="/" class="bread-container container">
     <el-breadcrumb-item :to="{ path: '/' }">
       首页
     </el-breadcrumb-item>
@@ -11,4 +11,4 @@ const props = defineProps({
   title: String
 })
 </script>
-<style></style>
+<style scoped></style>

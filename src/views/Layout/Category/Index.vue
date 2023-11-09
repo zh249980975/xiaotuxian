@@ -12,7 +12,7 @@
       <h3>全部分类</h3>
       <ul>
         <li v-for="i in cStore.categories?.children" :key="i.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/index/category/${cStore.categories?.id}/sub/${i.id}`">
             <img :src="i.picture" />
             <p>{{ i.name }}</p>
           </RouterLink>

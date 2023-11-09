@@ -19,6 +19,8 @@ declare module 'vue' {
     ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     GoodsItem: typeof import('./src/components/category/GoodsItem.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HomeBanner: typeof import('./src/components/home/HomeBanner.vue')['default']
