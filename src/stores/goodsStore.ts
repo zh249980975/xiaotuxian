@@ -34,8 +34,6 @@ const useGoodsStore = defineStore('goods', () => {
   const getGoodList = async () => {
     let res = await getGoodsApi()
     goodList.value = res.data.result
-    console.log(goodList.value);
-    
   }
 
   return {

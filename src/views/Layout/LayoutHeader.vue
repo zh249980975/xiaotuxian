@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { Search, ShoppingCart } from '@element-plus/icons-vue'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import useCategoryStore from '@/stores/categoryStore'
+import { onBeforeRouteUpdate } from 'vue-router';
 
 const store = useCategoryStore()
+const ret = ref<boolean>()
 onMounted(() => {
   store.getCategory()
+})
+
+onBeforeRouteUpdate((to) => {
+  ret.value = to.fullPath == '/index/home'
 })
 </script>
 
@@ -19,7 +25,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="14">
         <div class="nav">
-          <el-menu mode="horizontal" :ellipsis="false" :router="true">
+          <el-menu mode="horizontal" :ellipsis="false" :router="true" default-active="/index/home">
             <el-menu-item index="/index/home">
               首页
             </el-menu-item>
