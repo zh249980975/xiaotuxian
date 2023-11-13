@@ -59,7 +59,6 @@ const useSubCategoryStore = defineStore('subCategory', () => {
   const getSubCategoryList = async (id: string) => {
     let res = await getSubCategoryApi(id)
     subCategoryList.value = res.data.result
-    console.log(res.data.result);
   }
 
   return {

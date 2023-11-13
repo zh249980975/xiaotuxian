@@ -1,12 +1,40 @@
 <script setup lang="ts">
 import useSubCategoryStore from '@/stores/subCategoryStore';
-import { onMounted } from 'vue';
+import useGoodListStore from '@/stores/goodListStore';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
+import GoodsItem from '@/components/category/GoodsItem.vue';
+
 const store = useSubCategoryStore()
 const route = useRoute()
+const gstore = useGoodListStore()
+interface arg {
+  categoryId: string,
+  page: number,
+  pageSize: string,
+  sortField: 'publishTime' | 'orderNum' | 'evaluateNum'
+}
+const data = ref<arg>({
+  categoryId: '1005000',
+  page: 1,
+  pageSize: '20',
+  sortField: 'publishTime'
+})
+
+const tabChange = () => {
+  gstore.goodlist = []
+  data.value.page = 1
+  gstore.getGoodList(data.value)
+}
+
+const load = () => {
+  data.value.page++
+  gstore.getGoodList(data.value)
+}
 
 onMounted(() => {
   store.getSubCategoryList(route.fullPath.split('/')[5])
+  gstore.getGoodList(data.value)
 })
 </script>
 
@@ -23,13 +51,13 @@ onMounted(() => {
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs v-model="data.sortField" @tab-change="tabChange()">
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
-        <!-- 商品列表-->
+      <div class="body" v-infinite-scroll="load" :infinite-scroll-immediate="false" infinite-scroll-distance="10px">
+        <GoodsItem v-for="good in gstore.goodlist" :goods="good" :key="good.id" />
       </div>
     </div>
   </div>
