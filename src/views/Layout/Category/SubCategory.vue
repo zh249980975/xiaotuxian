@@ -44,7 +44,7 @@ onMounted(() => {
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/index/category/' + store.subCategoryList?.parentId }">
+        <el-breadcrumb-item :to="{ path: `/index/category/${store.subCategoryList?.parentId}` }">
           {{ store.subCategoryList?.parentName }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ store.subCategoryList?.name }}</el-breadcrumb-item>

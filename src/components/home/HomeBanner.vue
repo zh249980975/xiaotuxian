@@ -5,7 +5,9 @@ import { onMounted } from 'vue';
 const store = useBannerStore()
 
 onMounted(() => {
-  store.getPictureList('1');
+  if (store.pictureList.length == 0) {
+    store.getPictureList('1');
+  }
 })
 
 </script>

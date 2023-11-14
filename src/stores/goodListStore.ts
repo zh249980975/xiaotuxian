@@ -22,7 +22,6 @@ const useGoodListStore = defineStore('goodList', () => {
   const getGoodList = async (data: arg) => {
     let res = await getGoodListApi(data)
     goodlist.value = [ ...goodlist.value, ...res.data.result.items ]
-    console.log(goodlist.value);
   }
 
   return {

@@ -1,6 +1,6 @@
 <template>
   <li>
-    <RouterLink to="/" class="goods-item">
+    <RouterLink to="/" class="goods-item" @click="toDetail(props.goods.id)">
       <img :src="props.goods.picture" alt="" />
       <p class="name ellipsis">{{ props.goods.name }}</p>
       <p class="desc ellipsis">{{ props.goods.desc }}</p>
@@ -9,13 +9,19 @@
   </li>
 </template>
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps({
   goods: {
     type: Object,
     default: ''
   }
 })
+
+const toDetail = (id: string) => {
+  router.push(`/index/detail/${id}`)
+}
 </script>
 <style lang="scss" scoped>
 .goods-item {

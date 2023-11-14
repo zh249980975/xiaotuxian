@@ -7,7 +7,9 @@ import { onBeforeRouteUpdate } from 'vue-router';
 const store = useCategoryStore()
 const ret = ref<boolean>()
 onMounted(() => {
-  store.getCategory()
+  if (store.categoryList.length == 0) {
+    store.getCategory()
+  }
 })
 
 onBeforeRouteUpdate((to) => {

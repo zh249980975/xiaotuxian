@@ -5,7 +5,9 @@ import { onMounted } from 'vue';
 const store = useNewStore()
 
 onMounted(() => {
-  store.getNewList()
+  if (store.newList.length == 0) {
+    store.getNewList()
+  }
 })
 </script>
 
@@ -14,7 +16,7 @@ onMounted(() => {
     <template v-slot:main>
       <ul class="goods-list">
         <li v-for="item in store.newList" :key="item.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/index/detail/${item.id}`">
             <img :src="item.picture" alt="" />
             <p class="name">{{ item.name }}</p>
             <p class="price">&yen;{{ item.price }}</p>

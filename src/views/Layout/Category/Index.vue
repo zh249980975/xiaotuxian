@@ -42,7 +42,9 @@ const route = useRoute()
 
 onMounted(() => {
   cStore.getCategories(route.fullPath.split('/')[3])
-  bStore.getPictureList('2')
+  if (bStore.pictureList.length ==0) {
+    bStore.getPictureList('2')
+  }
 })
 
 onBeforeRouteUpdate((to) => {

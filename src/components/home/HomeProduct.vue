@@ -3,7 +3,9 @@ import useGoodsStore from '@/stores/goodsStore';
 import { onMounted } from 'vue';
 const store = useGoodsStore()
 onMounted(() => {
-  store.getGoodList()
+  if (store.goodList.length == 0) {
+    store.getGoodList()
+  }
 })
 </script>
 
@@ -21,7 +23,7 @@ onMounted(() => {
           </RouterLink>
           <ul class="goods-list">
             <li v-for="good in cate.goods" :key="good.id">
-              <RouterLink to="/" class="goods-item">
+              <RouterLink :to="`/index/detail/${good.id}`" class="goods-item">
                 <img :src="good.picture" alt="" />
                 <p class="name ellipsis">{{ good.name }}</p>
                 <p class="desc ellipsis">{{ good.desc }}</p>

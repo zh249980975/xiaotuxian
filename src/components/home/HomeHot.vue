@@ -5,7 +5,9 @@ import { onMounted } from 'vue';
 const store = useHotStore()
 
 onMounted(() => {
-  store.getHotGoodList()
+  if (store.hotGoodList.length == 0) {
+    store.getHotGoodList()
+  }
 })
 </script>
 
