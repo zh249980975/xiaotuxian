@@ -30,6 +30,7 @@ declare module 'vue' {
     HomeNew: typeof import('./src/components/home/HomeNew.vue')['default']
     HomePanel: typeof import('./src/components/HomePanel.vue')['default']
     HomeProduct: typeof import('./src/components/home/HomeProduct.vue')['default']
+    HotGoods: typeof import('./src/components/detail/HotGoods.vue')['default']
     PageHead: typeof import('./src/components/category/PageHead.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

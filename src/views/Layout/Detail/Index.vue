@@ -2,6 +2,7 @@
 import useDetailStore from '@/stores/detailStore'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import HotGoods from '@/components/detail/HotGoods.vue';
 
 const route = useRoute()
 const store = useDetailStore()
@@ -121,13 +122,15 @@ onBeforeUnmount(() => {
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <el-image style="width: 860px;" v-for="item in store.productDetail?.mainPictures" :src="item" fit="contain" />
+                  <el-image style="width: 860px;" v-for="item in store.productDetail?.mainPictures" :src="item"
+                    fit="contain" />
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+              <HotGoods :title="'24小时热榜'" :types="'1'" :good-id="store.productDetail?.id"></HotGoods>
+              <HotGoods :title="'周热榜'" :types="'2'" :good-id="store.productDetail?.id"></HotGoods>
             </div>
           </div>
         </div>
@@ -344,7 +347,7 @@ onBeforeUnmount(() => {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 30px;
-    
+
     li {
       display: flex;
       margin-bottom: 10px;
