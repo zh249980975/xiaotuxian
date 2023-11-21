@@ -3,6 +3,12 @@ import useDetailStore from '@/stores/detailStore'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import HotGoods from '@/components/detail/HotGoods.vue';
+import XtxSku from '@/components/Sku/XtxSku.vue'
+
+interface skuSpec {
+  name: string,
+  valueName: string
+}
 
 const route = useRoute()
 const store = useDetailStore()
@@ -16,6 +22,19 @@ onMounted(() => {
 onBeforeUnmount(() => {
   store.loadp()
 })
+
+const skuData = (arg: skuSpec[]) => {
+  for (let i of store.productDetail?.skus!)
+    if (i.specs.length == 1) {
+      if (i.specs[0].valueName == arg[0].valueName) {
+        console.log(i);
+      }
+    } else {
+      if (i.specs[0].valueName == arg[0].valueName && i.specs[1].valueName == arg[1].valueName) {
+        console.log(i);
+      }
+    }
+}
 </script>
 
 <template>
@@ -43,7 +62,7 @@ onBeforeUnmount(() => {
               <el-carousel trigger="click" height="400px">
                 <el-carousel-item v-for="item in store.productDetail?.mainPictures">
                   <!-- <img :src="item" style="width: 100%;"> -->
-                  <el-image :src="item" fit="contain" lazy />
+                  <el-image :src="item" fit="contain" />
                 </el-carousel-item>
               </el-carousel>
               <!-- 统计数量 -->
@@ -94,7 +113,7 @@ onBeforeUnmount(() => {
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :speclist="store.productDetail?.specs!" :skulist="store.productDetail?.skus!" @data="skuData" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
@@ -122,8 +141,8 @@ onBeforeUnmount(() => {
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <el-image style="width: 860px;" v-for="item in store.productDetail?.mainPictures" :src="item"
-                    fit="contain" />
+                  <el-image style="width: 860px;" v-for="item in store.productDetail?.details.pictures" :src="item"
+                    fit="contain" lazy />
                 </div>
               </div>
             </div>

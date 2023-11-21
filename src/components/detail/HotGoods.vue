@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import useHotGood from '@/stores/hotGoodStore'
-import { onMounted, defineProps } from 'vue';
+import { onMounted } from 'vue';
+import useDetailStore from '@/stores/detailStore';
 
+const dStore = useDetailStore()
 const store = useHotGood()
 const props = defineProps({
   title: String,
@@ -19,6 +21,10 @@ const props = defineProps({
 onMounted(() => {
   store.getHotGood(props.goodId, props.types)
 })
+
+const changeDetail = (id: string) => {
+  dStore.getProductDetail(id)
+}
 </script>
 
 
@@ -26,7 +32,8 @@ onMounted(() => {
   <div class="goods-hot">
     <h3>{{ props.title }}</h3>
     <!-- 商品区块 -->
-    <RouterLink to="/" class="goods-item" v-for="item in store.hotGood" :key="item.id">
+    <RouterLink :to="`/index/detail/${item.id}`" @click="changeDetail(item.id)" class="goods-item"
+      v-for="item in store.hotGood" :key="item.id">
       <img :src="item.picture" alt="" />
       <p class="name ellipsis">{{ item.name }}</p>
       <p class="desc ellipsis">{{ item.desc }}</p>

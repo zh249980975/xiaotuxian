@@ -52,6 +52,22 @@ interface brand {
   place: null
 }
 
+interface skuSpec {
+  name: string,
+  valueName: string
+}
+
+interface sku {
+  id: string,
+  skuCode: string,
+  price: string,
+  oldPrice: string,
+  inventory: string,
+  picture:string,
+  specs: skuSpec[]
+}
+
+
 interface product {
   id: string,
   name: string,
@@ -69,7 +85,7 @@ interface product {
   videoScale: string,
   mainPictures: string,
   specs: [],
-  skus: [],
+  skus: sku[],
   categories: category[],
   details: detail,
   isPreSale: boolean,
@@ -94,7 +110,6 @@ const useDetailStore = defineStore('detail', () => {
     let res = await getDetailApi(id)
     productDetail.value = res.data.result
     console.log(productDetail.value);
-    
   }
 
   return {
