@@ -47,12 +47,12 @@ onBeforeRouteUpdate(() => {
 
 <style scoped>
 .item {
-  background-color: lightgrey;
   float: left;
   height: 50px;
   margin: 10px;
   text-align: center;
   line-height: 50px;
+  border: 1px solid #ccc;
 }
 
 .select {

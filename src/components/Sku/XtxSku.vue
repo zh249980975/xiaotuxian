@@ -60,7 +60,6 @@ const typeSelect = ref<skuSpec[]>()
 const getSku = (arg0: string, arg1: desc) => {
   if (typeSelect.value == null || typeSelect.value.length == 0) {
     typeSelect.value = []
-    console.log(typeSelect.value?.length);
     for (let i of props.skulist[0].specs) {
       typeSelect.value = [...typeSelect.value, { name: i.name, valueName: "" }]
     }

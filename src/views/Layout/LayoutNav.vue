@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 const res = ref<boolean>(false)
 const login = () => {
-  res.value = true
+  // res.value = true
+  router.push('/login')
 }
 </script>
 
@@ -18,9 +22,7 @@ const login = () => {
         </li>
       </template>
       <template v-else>
-        <li>
-          <a @click="login">请先登录</a>
-        </li>
+        <a @click="login">请先登录</a>
         <li>
           <a>帮助中心</a>
         </li>
@@ -43,18 +45,24 @@ const login = () => {
     height: 50px;
     justify-content: flex-end;
     align-items: center;
+
     li {
       float: right;
       text-align: center;
+
       a {
-        width: 90px;
         display: inline-block;
-        font-size: 14px;
         margin-right: 2px;
         border-left: 1px solid white;
-        color: white;
       }
     }
   }
+}
+
+a {
+  width: 90px;
+  font-size: 14px;
+  color: white;
+  text-align: center;
 }
 </style>
