@@ -1,24 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import useLoginStore from '@/stores/loginStore';
 
+const store = useLoginStore()
 const router = useRouter()
 const res = ref<boolean>(false)
 const login = () => {
-  // res.value = true
   router.push('/login')
 }
+
+const logout = () => {
+  localStorage.removeItem('userInfo')
+  store.logout
+  res.value = false
+}
+
+onMounted(() => {
+  
+})
 </script>
 
 <template>
   <nav class="black">
     <ul>
       <template v-if="res">
-        <li>
-          <a>我的订单</a>
-        </li>
+        <a>我的订单</a>
         <li>
           <a>会员中心</a>
+        </li>
+        <li @click="logout">
+          <a>退出登录</a>
         </li>
       </template>
       <template v-else>

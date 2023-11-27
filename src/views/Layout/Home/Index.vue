@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <HomeCategory/>
-    <HomeBanner/>
+    <HomeCategory />
+    <HomeBanner />
   </div>
-  <HomeNew/>
-  <HomeHot/>
-  <HomeProduct/>
+  <HomeNew />
+  <HomeHot />
+  <HomeProduct />
 </template>
 <script lang="ts" setup>
 import HomeCategory from '@/components/home/HomeCategory.vue'
