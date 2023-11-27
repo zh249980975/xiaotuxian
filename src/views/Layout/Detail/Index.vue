@@ -4,15 +4,30 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import HotGoods from '@/components/detail/HotGoods.vue';
 import XtxSku from '@/components/Sku/XtxSku.vue'
+import useCartStore from '@/stores/cartStore';
+import { ElMessage } from 'element-plus';
 
 interface skuSpec {
   name: string,
   valueName: string
 }
 
+interface good {
+  id: string,
+  name: string,
+  picture: string,
+  count: string,
+  skuId: string,
+  attrsText: string,
+  selected: boolean
+}
+
 const route = useRoute()
 const store = useDetailStore()
+const cartStore = useCartStore()
 const loading = ref(true)
+let goodNum = ref<string>('1')
+let good = ref<good>()
 
 onMounted(() => {
   store.getProductDetail(route.fullPath.split('/')[3])
@@ -27,14 +42,45 @@ const skuData = (arg: skuSpec[]) => {
   for (let i of store.productDetail?.skus!)
     if (i.specs.length == 1) {
       if (i.specs[0].valueName == arg[0].valueName) {
-        console.log(i);
+        good.value = {
+          id: store.productDetail?.id!,
+          name: store.productDetail?.name!,
+          picture: store.productDetail?.mainPictures[0]!,
+          count: goodNum.value,
+          skuId: i.id,
+          attrsText: i.specs[0].name + ':' + i.specs[0].valueName,
+          selected: true
+        }
       }
     } else {
       if (i.specs[0].valueName == arg[0].valueName && i.specs[1].valueName == arg[1].valueName) {
-        console.log(i);
+        good.value = {
+          id: store.productDetail?.id!,
+          name: store.productDetail?.name!,
+          picture: store.productDetail?.mainPictures[0]!,
+          count: goodNum.value,
+          skuId: i.id,
+          attrsText: i.specs[0].name + ':' + i.specs[0].valueName + ',' + i.specs[1].name + ':' + i.specs[1].valueName,
+          selected: true
+        }
       }
     }
 }
+
+const numChange = () => {
+  if (good.value) {
+    good.value.count = goodNum.value
+  }
+}
+
+const submit = () => {
+  if (good.value) {
+    cartStore.addGood(good.value)
+  } else {
+    ElMessage.warning('请选择商品规格')
+  }
+}
+
 </script>
 
 <template>
@@ -115,10 +161,10 @@ const skuData = (arg: skuSpec[]) => {
               <!-- sku组件 -->
               <XtxSku :speclist="store.productDetail?.specs!" :skulist="store.productDetail?.skus!" @data="skuData" />
               <!-- 数据组件 -->
-
+              <el-input-number v-model="goodNum" :min="1" @change="numChange"/>
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">
+                <el-button size="large" class="btn" @click="submit">
                   加入购物车
                 </el-button>
               </div>
