@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import useLoginStore from '@/stores/loginStore';
 
 const store = useLoginStore()
 const router = useRouter()
-const res = ref<boolean>(false)
 const login = () => {
   router.push('/login')
 }
 
 const logout = () => {
-  localStorage.removeItem('userInfo')
-  store.logout
-  res.value = false
+  store.logout()
+  // login()
 }
-
-onMounted(() => {
-  
-})
 </script>
 
 <template>
   <nav class="black">
     <ul>
-      <template v-if="res">
-        <a>我的订单</a>
+      <template v-if="store.userInfo?.token">
+        <a>{{ store.userInfo.account }}</a>
+        <el-popconfirm title="确认退出登录？" confirm-button-text="确认" cancel-button-text="取消" @confirm="logout">
+          <template #reference>
+            <li>
+              <a>退出登录</a>
+            </li>
+          </template>
+        </el-popconfirm>
+        <li>
+          <a>我的订单</a>
+        </li>
         <li>
           <a>会员中心</a>
-        </li>
-        <li @click="logout">
-          <a>退出登录</a>
         </li>
       </template>
       <template v-else>
@@ -72,7 +72,7 @@ onMounted(() => {
 }
 
 a {
-  width: 90px;
+  padding: 0 10px;
   font-size: 14px;
   color: white;
   text-align: center;

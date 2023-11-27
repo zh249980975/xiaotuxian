@@ -18,7 +18,7 @@ const useLoginStore = defineStore('login', {
       profession: string
     }
 
-    const userInfo = ref<user>()
+    const userInfo = ref<user | null>()
 
     const getUserInfo = async (account: string, password: string) => {
       let res = await loginApi(account, password)
@@ -26,7 +26,7 @@ const useLoginStore = defineStore('login', {
     }
 
     const logout = () => {
-
+      userInfo.value = null
     }
 
     return {
@@ -36,7 +36,7 @@ const useLoginStore = defineStore('login', {
     }
   },
   persist: {
-    key: 'userInfo',
+    key: 'token',
     paths: ['userInfo']
   }
 })
