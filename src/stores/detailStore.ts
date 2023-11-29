@@ -73,7 +73,7 @@ interface product {
   name: string,
   spuCode: string,
   desc: string,
-  price: string,
+  price: number,
   oldPrice: string,
   dicount: string,
   inventory: string,
@@ -109,7 +109,6 @@ const useDetailStore = defineStore('detail', () => {
   const getProductDetail = async (id: string) => {
     let res = await getDetailApi(id)
     productDetail.value = res.data.result
-    console.log(productDetail.value);
   }
 
   return {

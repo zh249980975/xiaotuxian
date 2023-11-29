@@ -3,7 +3,6 @@
     <ul>
       <li v-for="(item, index) in props.speclist" :key="index">
         <div class="contain">
-          <div class="title">{{ item.name }}</div>
           <SkuItem :spec="item" @skuSelect="getSku" />
         </div>
       </li>
@@ -87,7 +86,8 @@ onBeforeRouteUpdate(() => {
   flex-wrap: wrap;
 
   .title {
-    width: 70px;
+    float: left;
+    width: 50px;
     height: 70px;
     text-align: center;
     line-height: 70px;

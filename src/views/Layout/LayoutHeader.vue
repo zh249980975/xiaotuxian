@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Search, ShoppingCart } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
 import useCategoryStore from '@/stores/categoryStore'
+import Cart from '@/components/Cart.vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 
 const store = useCategoryStore()
@@ -49,11 +50,7 @@ onBeforeRouteUpdate((to) => {
       </el-col>
       <el-col :span="1">
         <div class="cart">
-          <el-icon>
-            <a href="">
-              <ShoppingCart />
-            </a>
-          </el-icon>
+          <Cart />
         </div>
       </el-col>
     </el-row>

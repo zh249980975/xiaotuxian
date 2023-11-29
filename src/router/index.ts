@@ -5,7 +5,7 @@ import Index from '@/views/Layout/Index.vue'
 import Category from '@/views/Layout/Category/Index.vue'
 import SubCategory from '@/views/Layout/Category/SubCategory.vue'
 import Detail from '@/views/Layout/Detail/Index.vue'
-
+import ShoppingCart from '@/views/Layout/ShoppingCart/index.vue'
 
 const routes = [
   {
@@ -29,6 +29,9 @@ const routes = [
     }, {
       path: '/index/detail/:id',
       component: Detail
+    },{
+      path:'/index/shoppingCart',
+      component: ShoppingCart
     }]
   }, {
     path: '/login',

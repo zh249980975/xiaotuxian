@@ -7,7 +7,8 @@ const useCartStore = defineStore('cart', () => {
     id: string,
     name: string,
     picture: string,
-    count: string,
+    price:number,
+    count: number,
     skuId: string,
     attrsText: string,
     selected: boolean
@@ -18,9 +19,10 @@ const useCartStore = defineStore('cart', () => {
   const addGood = (arg: good) => {
     const good = goodList.value?.find(item => item.skuId == arg.skuId)
     if (good) {
-      good.count = good.count + 1
+      good.count = good.count + arg.count
     } else {
-      goodList.value.push(arg)
+      // 序列化后反序列化以完成深拷贝
+      goodList.value.push(JSON.parse(JSON.stringify(arg)))
     }
   }
 
@@ -28,6 +30,8 @@ const useCartStore = defineStore('cart', () => {
     goodList,
     addGood
   }
+}, {
+  persist: true
 })
 
 export default useCartStore

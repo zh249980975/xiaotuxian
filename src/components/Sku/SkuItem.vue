@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="title">{{ props.spec.name }}</div>
     <template v-for="(item, index) in props.spec.values">
       <el-image class="item" v-if="item.picture != null" :class="{ 'select': index == num }" @click="numClick(index)"
         :src="item.picture" fit="fill" />
@@ -58,4 +59,11 @@ onBeforeRouteUpdate(() => {
 .select {
   outline: green solid 1px;
 }
+.title {
+    float: left;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+  }
 </style>

@@ -16,7 +16,8 @@ interface good {
   id: string,
   name: string,
   picture: string,
-  count: string,
+  price: number,
+  count: number,
   skuId: string,
   attrsText: string,
   selected: boolean
@@ -26,8 +27,8 @@ const route = useRoute()
 const store = useDetailStore()
 const cartStore = useCartStore()
 const loading = ref(true)
-let goodNum = ref<string>('1')
-let good = ref<good>()
+const goodNum = ref<number>(1)
+const good = ref<good>()
 
 onMounted(() => {
   store.getProductDetail(route.fullPath.split('/')[3])
@@ -46,6 +47,7 @@ const skuData = (arg: skuSpec[]) => {
           id: store.productDetail?.id!,
           name: store.productDetail?.name!,
           picture: store.productDetail?.mainPictures[0]!,
+          price: store.productDetail?.price!,
           count: goodNum.value,
           skuId: i.id,
           attrsText: i.specs[0].name + ':' + i.specs[0].valueName,
@@ -58,6 +60,7 @@ const skuData = (arg: skuSpec[]) => {
           id: store.productDetail?.id!,
           name: store.productDetail?.name!,
           picture: store.productDetail?.mainPictures[0]!,
+          price: store.productDetail?.price!,
           count: goodNum.value,
           skuId: i.id,
           attrsText: i.specs[0].name + ':' + i.specs[0].valueName + ',' + i.specs[1].name + ':' + i.specs[1].valueName,
@@ -161,7 +164,7 @@ const submit = () => {
               <!-- sku组件 -->
               <XtxSku :speclist="store.productDetail?.specs!" :skulist="store.productDetail?.skus!" @data="skuData" />
               <!-- 数据组件 -->
-              <el-input-number v-model="goodNum" :min="1" @change="numChange"/>
+              <el-input-number v-model="goodNum" :min="1" @change="numChange" />
               <!-- 按钮组件 -->
               <div>
                 <el-button size="large" class="btn" @click="submit">
