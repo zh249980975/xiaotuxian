@@ -9,35 +9,37 @@
         </el-icon>
       </template>
       <div class="itemList">
-        <ul>
-          <li v-for="(item, index) in store.goodList" :key="index" @mouseenter="changeRet(index)"
-            @mouseleave="changeRet(-1)">
-            <el-row>
-              <el-col :span="5">
-                <div>
-                  <el-image style="width: 60px; height: 60px" :src="item.picture" fit="fill" />
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div>
-                  <div style="color: black;">{{ item.name }}</div>
-                  <div class="attr">{{ item.attrsText }}</div>
-                </div>
-              </el-col>
-              <el-col :span="6" style="">
-                <div>
-                  <div style="color: lightcoral;">￥{{ item.price }}</div>
-                  <div>x{{ item.count }}</div>
-                </div>
-              </el-col>
-              <el-col :span="1" style="">
-                <div v-show="ret == index" @click="delItem(index)">
-                  <span>X</span>
-                </div>
-              </el-col>
-            </el-row>
-          </li>
-        </ul>
+        <el-scrollbar height="400px">
+          <ul>
+            <li v-for="(item, index) in store.goodList" :key="index" @mouseenter="changeRet(index)"
+              @mouseleave="changeRet(-1)">
+              <el-row>
+                <el-col :span="5">
+                  <div>
+                    <el-image style="width: 60px; height: 60px" :src="item.picture" fit="fill" />
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div>
+                    <div style="color: black;">{{ item.name }}</div>
+                    <div class="attr">{{ item.attrsText }}</div>
+                  </div>
+                </el-col>
+                <el-col :span="6" style="">
+                  <div>
+                    <div style="color: lightcoral;">￥{{ item.price }}</div>
+                    <div>x{{ item.count }}</div>
+                  </div>
+                </el-col>
+                <el-col :span="1" style="">
+                  <div v-show="ret == index" @click="delItem(index)">
+                    <span>X</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </el-scrollbar>
         <div class="toPlay">
           <div>
             <div>
@@ -88,6 +90,7 @@ const totalPrice = computed(() => {
   padding-bottom: 50px;
 
   ul {
+    padding-right: 10px;
     li {
       height: 100px;
       text-align: center;

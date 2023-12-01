@@ -61,7 +61,6 @@ onBeforeRouteUpdate(() => {
 }
 .title {
     float: left;
-    width: 70px;
     height: 70px;
     text-align: center;
     line-height: 70px;

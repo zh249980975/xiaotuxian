@@ -27,10 +27,11 @@ const routes = [
       path: '/index',
       redirect: '/index/home'
     }, {
+      name: 'detail',
       path: '/index/detail/:id',
       component: Detail
-    },{
-      path:'/index/shoppingCart',
+    }, {
+      path: '/index/shoppingCart',
       component: ShoppingCart
     }]
   }, {
