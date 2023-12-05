@@ -13,7 +13,7 @@
           <ul>
             <li v-for="(item, index) in store.goodList" :key="index" @mouseenter="changeRet(index)"
               @mouseleave="changeRet(-1)">
-              <el-row>
+              <el-row :gutter="1" style="width: 100%;">
                 <el-col :span="5">
                   <div>
                     <el-image style="width: 60px; height: 60px" :src="item.picture" fit="fill" />
