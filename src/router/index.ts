@@ -6,6 +6,7 @@ import Category from '@/views/Layout/Category/Index.vue'
 import SubCategory from '@/views/Layout/Category/SubCategory.vue'
 import Detail from '@/views/Layout/Detail/Index.vue'
 import ShoppingCart from '@/views/Layout/ShoppingCart/index.vue'
+import CheckOut from '@/views/Layout/CheckOut/index.vue'
 
 const routes = [
   {
@@ -33,6 +34,9 @@ const routes = [
     }, {
       path: '/index/shoppingCart',
       component: ShoppingCart
+    }, {
+      path: '/index/checkout',
+      component: CheckOut
     }]
   }, {
     path: '/login',

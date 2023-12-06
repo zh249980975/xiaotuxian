@@ -69,7 +69,7 @@ const changeRet = (index: number) => {
 }
 
 const delItem = (index: number) => {
-  store.goodList.splice(index, 1)
+  store.delGood(index)
 }
 
 const total = computed(() => {

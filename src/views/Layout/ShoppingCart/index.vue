@@ -43,7 +43,7 @@
       </div>
       <div>
         <el-button type="success">
-          <router-link to="/index/shoppingCart">
+          <router-link to="/index/checkout">
             下单结算
           </router-link>
         </el-button>

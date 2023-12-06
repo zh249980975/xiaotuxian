@@ -1,7 +1,7 @@
 <template>
   <li>
     <RouterLink :to="{ name: 'detail', params: { id: props.goods.id } }" class="goods-item">
-      <img :src="props.goods.picture" alt="" />
+      <img :src="props.goods.picture" />
       <p class="name ellipsis">{{ props.goods.name }}</p>
       <p class="desc ellipsis">{{ props.goods.desc }}</p>
       <p class="price">&yen;{{ props.goods.price }}</p>

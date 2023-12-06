@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { loginApi } from '@/apis/LoginApi'
 import { ref } from "vue";
+import useCartStore from "./cartStore";
 
 const useLoginStore = defineStore('login', {
   state: () => {
@@ -19,14 +20,17 @@ const useLoginStore = defineStore('login', {
     }
 
     const userInfo = ref<user | null>()
-
+    const cartStore = useCartStore()
+    
     const getUserInfo = async (account: string, password: string) => {
       let res = await loginApi(account, password)
       userInfo.value = res.data.result
+      cartStore.Cart()
     }
 
     const logout = () => {
       userInfo.value = null
+      cartStore.clearCart()
     }
 
     return {

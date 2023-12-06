@@ -20,7 +20,7 @@ interface good {
   count: number,
   skuId: string,
   attrsText: string,
-  selected: boolean
+  selected: string
 }
 
 const route = useRoute()
@@ -51,7 +51,7 @@ const skuData = (arg: skuSpec[]) => {
           count: goodNum.value,
           skuId: i.id,
           attrsText: i.specs[0].name + ':' + i.specs[0].valueName,
-          selected: true
+          selected: "true"
         }
       }
     } else {
@@ -64,7 +64,7 @@ const skuData = (arg: skuSpec[]) => {
           count: goodNum.value,
           skuId: i.id,
           attrsText: i.specs[0].name + ':' + i.specs[0].valueName + ',' + i.specs[1].name + ':' + i.specs[1].valueName,
-          selected: true
+          selected: "true"
         }
       }
     }
