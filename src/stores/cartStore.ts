@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import useLoginStore from '@/stores/loginStore'
-import { GetCartApi, InsertCartApi, DelCartApi, CartApi } from '@/apis/CartApi'
+import { GetCartApi, InsertCartApi, DelCartApi, CartApi, selectedCartApi, numberChangeApi } from '@/apis/CartApi'
 
 const useCartStore = defineStore('cart', () => {
 
@@ -28,6 +28,7 @@ const useCartStore = defineStore('cart', () => {
         count
       })
     })
+    console.log(list);
     let res = await CartApi(list as any)
     res.data.code == '1' ? initCart() : ''
   }
@@ -59,11 +60,53 @@ const useCartStore = defineStore('cart', () => {
     const isLogin = loginStore.userInfo?.token
     if (isLogin) {
       let list = [goodList.value[index].skuId]
-      let res = await DelCartApi(list)
-      res.data.result ? initCart() : ''
+      goodList.value.splice(index, 1)
+      await DelCartApi(list)
+
+      // res.data.result ? initCart() : ''
     } else {
       goodList.value.splice(index, 1)
     }
+  }
+
+  const changeSelect = async (arg: good[]) => {
+    const isLogin = loginStore.userInfo?.token
+    if (isLogin) {
+      const skuList = <string[]>[]
+      goodList.value.map(item => skuList.push(item.skuId))
+      if (arg.length === 0) {
+        await selectedCartApi({
+          'selected': false,
+          'ids': skuList
+        })
+      } else if (arg.length == goodList.value.length) {
+        await selectedCartApi({
+          'selected': true,
+          'ids': skuList
+        })
+      } else {
+        goodList.value.map(item => {
+          item.selected = arg.find(i => i == item) ? 'true' : 'false'
+          numberChange(item)
+        })
+
+      }
+    } else {
+      if (arg.length == 0) {
+        goodList.value.map(item => item.selected = 'false')
+      } else {
+        goodList.value.map(item => {
+          item.selected = arg.find(i => i == item) ? 'true' : 'false'
+        })
+      }
+    }
+  }
+
+  const numberChange = (arg: good) => {
+    numberChangeApi(arg.skuId, {
+      'selected': arg.selected,
+      'count': arg.count
+    })
   }
 
   const clearCart = () => {
@@ -76,7 +119,9 @@ const useCartStore = defineStore('cart', () => {
     initCart,
     delGood,
     clearCart,
-    Cart
+    Cart,
+    changeSelect,
+    numberChange
   }
 }, {
   persist: true

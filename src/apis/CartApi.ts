@@ -39,3 +39,19 @@ export const CartApi = (data: good[]) => {
     data
   })
 }
+
+export const selectedCartApi = (data: any) => {
+  return instance({
+    url: '/member/cart/selected',
+    method: 'PUT',
+    data
+  })
+}
+
+export const numberChangeApi = (skuId: string, data: any) => {
+  return instance({
+    url: `/member/cart/${skuId}`,
+    method: 'PUT',
+    data
+  })
+}

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-table ref="multipleTableRef" :data="cartStore.goodList" style="width: 100%" @select="selectAction"
-      @select-all="selectAction" height="1000px">
+    <el-table :data="cartStore.goodList" style="width: 100%" @select="selectAction" @select-all="selectAction"
+      height="1000px">
       <el-table-column type="selection" width="55" />
       <el-table-column label="商品属性" align="center">
         <template #default="scope">
@@ -19,7 +19,7 @@
       <el-table-column property="price" label="单价" align="center" />
       <el-table-column label="数量" align="center">
         <template #default="scope">
-          <el-input-number v-model="scope.row.count" :min="1" />
+          <el-input-number v-model="scope.row.count" :min="1" @change="numberChange(scope.row)" />
         </template>
       </el-table-column>
       <el-table-column label="小计" align="center">
@@ -42,10 +42,8 @@
         </div>
       </div>
       <div>
-        <el-button type="success">
-          <router-link to="/index/checkout">
-            下单结算
-          </router-link>
+        <el-button type="success" @click="toCheckOut">
+          下单结算
         </el-button>
       </div>
     </div>
@@ -53,8 +51,11 @@
 </template>
 <script setup lang="ts">
 import useCartStore from '@/stores/cartStore'
+import { ElMessage } from 'element-plus';
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 const cartStore = useCartStore()
+const router = useRouter()
 
 interface good {
   id: string;
@@ -64,14 +65,13 @@ interface good {
   count: number;
   skuId: string;
   attrsText: string;
-  selected: boolean;
+  selected: string;
 }
-
 const selectGoodList = ref<good[]>([])
 
 const delGood = (arg: any) => {
   const index = cartStore.goodList.indexOf(arg)
-  cartStore.goodList.splice(index, 1)
+  cartStore.delGood(index)
 }
 
 const goodNumber = computed(() => {
@@ -94,15 +94,27 @@ const selectedTotalPrice = computed(() => {
 
 const selectAction = (arg: any) => {
   selectGoodList.value = arg
-  console.log(selectGoodList.value);
+  cartStore.changeSelect(selectGoodList.value)
 }
 
+const numberChange = (arg: good) => {
+  cartStore.numberChange(arg)
+}
+
+const toCheckOut = () => {
+  if(selectGoodList.value.length == 0){
+    ElMessage('未选择商品进行结算')
+    return
+  }
+  router.push('/index/checkout')
+}
 </script>
 <style scoped lang="scss">
 .item {
   display: flex;
   align-items: center;
-  div{
+
+  div {
     margin: 0 3px;
   }
 }

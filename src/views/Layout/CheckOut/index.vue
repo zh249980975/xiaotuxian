@@ -1,6 +1,48 @@
 <script setup lang="ts">
-const checkInfo = {}  // 订单对象
-const curAddress = {}  // 地址对象
+import { computed, onMounted, ref } from 'vue'
+import { useOrderStore } from '@/stores/orderStore'
+
+const orderStore = useOrderStore()
+
+const form = ref({
+  receiver: "",
+  contact: "",
+  provinceCode: "",
+  cityCode: "",
+  countyCode: "",
+  address: "",
+  postalCode: "",
+  addressTags: "",
+  isDefault: null,
+  fullLocation: ""
+})
+
+onMounted(() => {
+  orderStore.getInfo()
+})
+
+const checkInfo = computed(() => {
+  return orderStore.info
+})  // 订单对象
+
+const curAddress = computed(() => {
+  return orderStore.info?.userAddresses.find(item => item.isDefault == 0)  // 地址对象
+})
+
+const addFlag = ref<boolean>(false)
+const toggleFlag = ref<boolean>(false)
+const select = ref<string>('')
+
+const changeAddress = (selectId: string) => {
+  toggleFlag.value = false
+  orderStore.info?.userAddresses.map(item => {
+    item.isDefault = item.id == selectId ? 0 : 1
+  })
+}
+const addAddress = () => {
+  addFlag.value = false
+  orderStore.addAddress(form.value)
+}
 
 </script>
 
@@ -40,7 +82,7 @@ const curAddress = {}  // 地址对象
               </tr>
             </thead>
             <tbody>
-              <tr v-for="i in checkInfo.goods" :key="i.id">
+              <tr v-for="i in checkInfo?.goods" :key="i.id">
                 <td>
                   <a href="javascript:;" class="info">
                     <img :src="i.picture" alt="">
@@ -51,7 +93,7 @@ const curAddress = {}  // 地址对象
                   </a>
                 </td>
                 <td>&yen;{{ i.price }}</td>
-                <td>{{ i.price }}</td>
+                <td>{{ i.count }}</td>
                 <td>&yen;{{ i.totalPrice }}</td>
                 <td>&yen;{{ i.totalPayPrice }}</td>
               </tr>
@@ -78,19 +120,19 @@ const curAddress = {}  // 地址对象
           <div class="total">
             <dl>
               <dt>商品件数：</dt>
-              <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
+              <dd>{{ checkInfo ? checkInfo.summary.goodsCount : 0 }}件</dd>
             </dl>
             <dl>
               <dt>商品总价：</dt>
-              <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
+              <dd>¥{{ checkInfo ? checkInfo.summary.totalPrice.toFixed(2) : 0.00 }}</dd>
             </dl>
             <dl>
               <dt>运<i></i>费：</dt>
-              <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
+              <dd>¥{{ checkInfo ? checkInfo.summary.postFee.toFixed(2) : 0.00 }}</dd>
             </dl>
             <dl>
               <dt>应付总额：</dt>
-              <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
+              <dd class="price">{{ checkInfo ? checkInfo.summary.totalPayPrice.toFixed(2) : 0.00 }}</dd>
             </dl>
           </div>
         </div>
@@ -102,10 +144,86 @@ const curAddress = {}  // 地址对象
     </div>
   </div>
   <!-- 切换地址 -->
+  <el-dialog v-model="toggleFlag" title="选择地址" width="30%" center>
+    <el-scrollbar height="400px">
+      <ul>
+        <li class="Saddress" :class="{ 'selected': select == item.id }" v-for="item in  orderStore.info?.userAddresses "
+          :key="item.id" @click="select = item.id">
+          <div>收货人:{{ item.receiver }}</div>
+          <div>联系电话:{{ item.contact }}</div>
+          <div>收货地址:{{ item.address }}</div>
+          <!-- <button @click="orderStore.delAddress(item.id)">删除地址</button> -->
+        </li>
+      </ul>
+    </el-scrollbar>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="toggleFlag = false">关闭</el-button>
+        <el-button type="primary" @click="changeAddress(select)">
+          确认
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   <!-- 添加地址 -->
+  <el-dialog v-model="addFlag" title="添加地址" width="30%" center>
+    <el-form label-position="right" status-icon :model="form" ref="formRef">
+      <el-form-item prop="receiver" label="姓名:">
+        <el-input v-model="form.receiver" />
+      </el-form-item>
+      <el-form-item prop="contact" label="电话:">
+        <el-input v-model="form.contact" />
+      </el-form-item>
+      <el-form-item prop="provinceCode" label="省份编码:">
+        <el-input v-model="form.provinceCode" />
+      </el-form-item>
+      <el-form-item prop="cityCode" label="城市编码:">
+        <el-input v-model="form.cityCode" />
+      </el-form-item>
+      <el-form-item prop="countyCode" label="地区编码:">
+        <el-input v-model="form.countyCode" />
+      </el-form-item>
+      <el-form-item prop="address" label="详细地址:">
+        <el-input v-model="form.address" />
+      </el-form-item>
+      <el-form-item prop="postalCode" label="邮政编码:">
+        <el-input v-model="form.postalCode" />
+      </el-form-item>
+      <el-form-item prop="addressTags" label="地址标签:">
+        <el-input v-model="form.addressTags" />
+      </el-form-item>
+      <el-form-item prop="isDefault" label="是否为默认收货地址:">
+        <el-input v-model.number="form.isDefault" placeholder="0为默认,1为非默认" />
+      </el-form-item>
+      <el-form-item prop="fullLocation" label="完整地址:">
+        <el-input v-model="form.fullLocation" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="addFlag = false">关闭</el-button>
+        <el-button type="primary" @click="addAddress">
+          确认
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
+.Saddress {
+  border: 1px solid lightgrey;
+  margin: 10px 5px;
+
+  div {
+    margin: 10px;
+  }
+}
+
+.selected {
+  background-color: rgba($color: #90ee90, $alpha: 0.3);
+}
+
 .xtx-pay-checkout-page {
   margin-top: 20px;
 

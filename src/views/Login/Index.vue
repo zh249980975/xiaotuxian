@@ -7,8 +7,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 const store = useLoginStore()
 const form = ref({
-  account: 'xiaotuxian001',
-  password: '123456',
+  account: 'heima292',
+  password: 'hm#qd@23!',
   agree: true
 })
 

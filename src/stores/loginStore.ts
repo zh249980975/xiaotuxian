@@ -25,7 +25,7 @@ const useLoginStore = defineStore('login', {
     const getUserInfo = async (account: string, password: string) => {
       let res = await loginApi(account, password)
       userInfo.value = res.data.result
-      cartStore.Cart()
+      cartStore.initCart()
     }
 
     const logout = () => {
