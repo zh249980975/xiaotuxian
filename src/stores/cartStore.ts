@@ -28,7 +28,6 @@ const useCartStore = defineStore('cart', () => {
         count
       })
     })
-    console.log(list);
     let res = await CartApi(list as any)
     res.data.code == '1' ? initCart() : ''
   }

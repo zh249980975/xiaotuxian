@@ -44,6 +44,10 @@ const addAddress = () => {
   orderStore.addAddress(form.value)
 }
 
+const toPayLoad = () => {
+  orderStore.getOrder()
+}
+
 </script>
 
 <template>
@@ -138,7 +142,7 @@ const addAddress = () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button type="primary" size="large" @click="toPayLoad">提交订单</el-button>
         </div>
       </div>
     </div>

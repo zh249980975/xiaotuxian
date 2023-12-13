@@ -17,9 +17,17 @@ export const addAddressApi = (data: any) => {
   })
 }
 
-export const delAddressApi = (id:string) => {
+export const delAddressApi = (id: string) => {
   return instance({
     url: `/member/address/${id}`,
     method: 'DELETE',
+  })
+}
+
+export const getOrderApi = (data: any) => {
+  return instance({
+    url: '/member/order',
+    method: 'POST',
+    data
   })
 }

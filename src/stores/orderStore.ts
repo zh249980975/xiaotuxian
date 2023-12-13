@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { addAddressApi, delAddressApi, initOrderApi } from '@/apis/Order'
+import { addAddressApi, delAddressApi, getOrderApi, initOrderApi } from '@/apis/Order'
 import useLoginStore from "./loginStore";
 import { ElMessage } from "element-plus";
 import router from "@/router";
@@ -20,7 +20,6 @@ export const useOrderStore = defineStore('order', () => {
     postalCode: string | null,
     addressTags: string | null,
   }
-
 
   interface goodList {
     id: string,
@@ -49,32 +48,59 @@ export const useOrderStore = defineStore('order', () => {
     summary: order
   }
 
+  interface good {
+    skuId: string,
+    count: number
+  }
+
   const info = ref<userInfo>()
+  const orderId = ref<string>()
   const loginStore = useLoginStore()
   const getInfo = async () => {
     const token = loginStore.userInfo?.token
     if (token) {
       let res = await initOrderApi()
       info.value = res.data.result
-      console.log(info.value);
     } else {
       ElMessage('请先登录账号')
       router.push('/login')
     }
   }
 
-  const addAddress = async (data: any) => {
-    let res = await addAddressApi(JSON.stringify(data))
-    console.log(res.data);
+  const getOrder = async () => {
+    let order = {
+      "deliveryTimeType": 1,
+      "payType": 1,
+      "payChannel": 1,
+      "buyerMessage": '',
+      "goods": <good[]>[],
+      "addressId": info.value?.userAddresses.find(item => item.isDefault == 0)?.id
+    }
+    info.value?.goods.map(item => {
+      let good = {
+        "skuId": item.skuId,
+        "count": item.count
+      }
+      order.goods.push(good)
+    })
+    let res = await getOrderApi(order)
+    orderId.value = res.data.result.id
+    router.push({path:'/index/payload',query:{id:orderId.value}})
   }
 
-  const delAddress = (id:string) => {
+  const addAddress = (data: any) => {
+    addAddressApi(JSON.stringify(data))
+  }
+
+  const delAddress = (id: string) => {
     delAddressApi(id)
   }
   return {
     info,
+    orderId,
     getInfo,
     addAddress,
-    delAddress
+    delAddress,
+    getOrder
   }
 })
