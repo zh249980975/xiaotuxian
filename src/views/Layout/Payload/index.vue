@@ -1,18 +1,16 @@
 <script setup lang='ts'>
 import { usePayloadStore } from '@/stores/payloadStore';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 
 const payloadStore = usePayloadStore()
 const route = useRoute()
 
-let time = ref<number>(payloadStore.time!)
-
 const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 const backURL = 'http://localhost:5173/index/payback'
-// const redirectUrl = encodeURIComponent(backURL)
+const redirectUrl = encodeURIComponent(backURL)
 // alipay=askgxl8276@sandbox.com
-const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${backURL}`
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 
 onMounted(() => {
   payloadStore.getPay(route.query.id as string)
@@ -27,7 +25,7 @@ onMounted(() => {
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>{{ time }}</span>, 超时后将取消订单</p>
+          <p>支付还剩 <span>{{ payloadStore.formatTime }}</span>, 超时后将取消订单</p>
         </div>
         <div class="amount">
           <span>应付总额：{{ payloadStore.pay?.totalMoney }}</span>

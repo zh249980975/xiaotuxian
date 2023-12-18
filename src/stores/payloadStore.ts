@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import { getPayApi } from "@/apis/PayloadApi";
+import useCountDownTime from '@/composables/countDownTime';
 
 export const usePayloadStore = defineStore('pay', () => {
 
@@ -16,22 +17,15 @@ export const usePayloadStore = defineStore('pay', () => {
   }
 
   const pay = ref<orderInfo>()
-  const time = ref<number>()
-
-  watchEffect(()=>{
-   if (time.value) {
-    time.value = time.value--
-   } 
-  })
-
+  const { formatTime, start } = useCountDownTime()
   const getPay = async (id: string) => {
     let res = await getPayApi(id)
     pay.value = res.data.result
-    time.value = pay.value?.countdown
+    start(pay.value?.countdown!)
   }
   return {
     pay,
-    time,
-    getPay
+    getPay,
+    formatTime
   }
 })
