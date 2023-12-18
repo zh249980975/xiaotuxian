@@ -34,7 +34,7 @@ const routes = [
       path: '/index/detail/:id',
       component: Detail
     }, {
-      path: '/index/shoppingCart',
+      path: '/index/shoppingcart',
       component: ShoppingCart
     }, {
       path: '/index/checkout',

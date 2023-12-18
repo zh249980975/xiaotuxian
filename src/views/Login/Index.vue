@@ -52,7 +52,6 @@ const formCheck = () => {
 
 </script>
 
-
 <template>
   <div>
     <header class="login-header">

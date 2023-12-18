@@ -47,7 +47,7 @@
             </div>
             <div style="font-size: 18px; color: lightcoral;">￥{{ totalPrice.toFixed(2) }}</div>
           </div>
-          <el-button type="success">
+          <el-button type="success" @click="toShoppingCart">
             <router-link to="/index/shoppingCart">
               去结算
             </router-link>
@@ -61,9 +61,12 @@
 import { ShoppingCart } from '@element-plus/icons-vue'
 import useCartStore from '@/stores/cartStore'
 import { computed, ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 
 const store = useCartStore()
 const ret = ref<number>()
+const router = useRouter()
 const changeRet = (index: number) => {
   ret.value = index
 }
@@ -83,6 +86,14 @@ const totalPrice = computed(() => {
     return pre + cur.count * cur.price
   }, 0)
 })
+
+const toShoppingCart = () => {
+  if(store.goodList.length == 0){
+    ElMessage('未选择商品进行结算')
+    return
+  }
+  router.push('/index/shoppingcart')
+}
 </script>
 <style lang="scss" scoped>
 .itemList {

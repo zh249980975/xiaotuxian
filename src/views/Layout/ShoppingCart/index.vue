@@ -42,8 +42,10 @@
         </div>
       </div>
       <div>
-        <el-button type="success" @click="toCheckOut">
-          下单结算
+        <el-button type="success">
+          <router-link to="/index/checkout">
+            下单结算
+          </router-link>
         </el-button>
       </div>
     </div>
@@ -51,11 +53,8 @@
 </template>
 <script setup lang="ts">
 import useCartStore from '@/stores/cartStore'
-import { ElMessage } from 'element-plus';
 import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
 const cartStore = useCartStore()
-const router = useRouter()
 
 interface good {
   id: string;
@@ -101,13 +100,6 @@ const numberChange = (arg: good) => {
   cartStore.numberChange(arg)
 }
 
-const toCheckOut = () => {
-  if(selectGoodList.value.length == 0){
-    ElMessage('未选择商品进行结算')
-    return
-  }
-  router.push('/index/checkout')
-}
 </script>
 <style scoped lang="scss">
 .item {
