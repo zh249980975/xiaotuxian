@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getGoodsApi } from "@/apis/GoodsApi";
+import { getGoodsApi, getLikeApi } from "@/apis/GoodsApi";
 import { ref } from "vue";
 
 const useGoodsStore = defineStore('goods', () => {
@@ -29,16 +29,33 @@ const useGoodsStore = defineStore('goods', () => {
     goods: good[]
   }
 
-  const goodList = ref<goods[]>([])
+  interface likeGood {
+    id: string,
+    name: string,
+    picture: string,
+    desc: string,
+    price: string,
+    orderNum: number
+  }
 
+  const goodList = ref<goods[]>([])
+  const likeGoodList = ref<likeGood[]>([])
   const getGoodList = async () => {
     let res = await getGoodsApi()
     goodList.value = res.data.result
   }
 
+  const getLikeList = async () => {
+    let res = await getLikeApi()
+    likeGoodList.value = res.data.result
+    console.log(likeGoodList.value);
+  }
+
   return {
     goodList,
-    getGoodList
+    likeGoodList,
+    getGoodList,
+    getLikeList
   }
 })
 

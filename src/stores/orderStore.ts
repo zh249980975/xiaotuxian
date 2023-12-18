@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { addAddressApi, delAddressApi, getOrderApi, initOrderApi } from '@/apis/Order'
+import { addAddressApi, delAddressApi, getOrderApi, initOrderApi, getUserOrder } from '@/apis/Order'
 import useLoginStore from "./loginStore";
+import useCartStore from "./cartStore";
 import { ElMessage } from "element-plus";
 import router from "@/router";
 
@@ -53,9 +54,53 @@ export const useOrderStore = defineStore('order', () => {
     count: number
   }
 
+  interface property {
+    propertyMainName: string,
+    propertyValueName: string
+  }
+
+  interface sku {
+    attrsText: string,
+    curPrice: number,
+    id: string,
+    image: string,
+    name: string,
+    properties: property[],
+    quantity: number,
+    realPay: number,
+    spuId: string,
+    totalMoney: null
+  }
+
+  interface orders {
+    countdown: number,
+    createTime: string,
+    id: string,
+    orderState: number,
+    payChannel: number,
+    payLatestTime: string,
+    payMoney: number,
+    payType: number,
+    postFee: number,
+    skus: sku[],
+    totalMoney: number,
+    totalNum: number
+  }
+
+  interface res {
+    counts: number,
+    items: orders[],
+    page: number,
+    pageSize: number,
+    pages: number
+  }
+
+  const orderList = ref<res>()
   const info = ref<userInfo>()
   const orderId = ref<string>()
   const loginStore = useLoginStore()
+  const cartStore = useCartStore()
+
   const getInfo = async () => {
     const token = loginStore.userInfo?.token
     if (token) {
@@ -84,8 +129,14 @@ export const useOrderStore = defineStore('order', () => {
       order.goods.push(good)
     })
     let res = await getOrderApi(order)
+    cartStore.initCart()
     orderId.value = res.data.result.id
-    router.push({path:'/index/payload',query:{id:orderId.value}})
+    router.push({ path: '/index/payload', query: { id: orderId.value } })
+  }
+
+  const getOrderList = async (params: any) => {
+    let res = await getUserOrder(params)
+    orderList.value = res.data.result
   }
 
   const addAddress = (data: any) => {
@@ -95,12 +146,15 @@ export const useOrderStore = defineStore('order', () => {
   const delAddress = (id: string) => {
     delAddressApi(id)
   }
+
   return {
     info,
     orderId,
+    orderList,
     getInfo,
     addAddress,
     delAddress,
-    getOrder
+    getOrder,
+    getOrderList
   }
 })

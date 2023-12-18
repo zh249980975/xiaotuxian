@@ -9,6 +9,9 @@ import ShoppingCart from '@/views/Layout/ShoppingCart/index.vue'
 import CheckOut from '@/views/Layout/CheckOut/index.vue'
 import Payload from '@/views/Layout/Payload/index.vue'
 import Payback from '@/views/Layout/Payload/PayBack.vue'
+import Center from '@/views/Layout/VipCenter/index.vue'
+import UserInfo from '@/views/Layout/VipCenter/MemberInfo.vue'
+import UserOrder from '@/views/Layout/VipCenter/MemberOrder.vue'
 
 const routes = [
   {
@@ -45,6 +48,19 @@ const routes = [
     }, {
       path: '/index/payback',
       component: Payback
+    }, {
+      path: '/index/member',
+      component: Center,
+      children: [{
+        path: '/index/member/user',
+        component: UserInfo
+      }, {
+        path: '/index/member/order',
+        component: UserOrder
+      }, {
+        path: '/index/member',
+        redirect: '/index/member/user'
+      }]
     }]
   }, {
     path: '/login',

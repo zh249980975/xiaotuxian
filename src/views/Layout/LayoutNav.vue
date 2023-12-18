@@ -27,10 +27,14 @@ const logout = () => {
           </template>
         </el-popconfirm>
         <li>
-          <a>我的订单</a>
+          <router-link to="/index/member/order">
+            我的订单
+          </router-link>
         </li>
         <li>
-          <a>会员中心</a>
+          <router-link to="/index/member/user">
+            会员中心
+          </router-link>
         </li>
       </template>
       <template v-else>

@@ -13,7 +13,7 @@
 const props = defineProps({
   goods: {
     type: Object,
-    default: ''
+    default: () => ({})
   }
 })
 
