@@ -8,6 +8,7 @@ import Detail from '@/views/Layout/Detail/Index.vue'
 import ShoppingCart from '@/views/Layout/ShoppingCart/index.vue'
 import CheckOut from '@/views/Layout/CheckOut/index.vue'
 import Payload from '@/views/Layout/Payload/index.vue'
+import Payback from '@/views/Layout/Payload/PayBack.vue'
 
 const routes = [
   {
@@ -41,6 +42,9 @@ const routes = [
     }, {
       path: '/index/payload',
       component: Payload
+    }, {
+      path: '/index/payback',
+      component: Payback
     }]
   }, {
     path: '/login',
