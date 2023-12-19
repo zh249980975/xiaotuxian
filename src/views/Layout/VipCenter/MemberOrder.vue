@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { useOrderStore } from '@/stores/orderStore';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 
 const param = ref({
   orderState: 0,
   page: 1,
   pageSize: 2
 })
+const router = useRouter()
 const orderStore = useOrderStore()
 // tab列表
 const tabTypes = [
@@ -18,12 +21,59 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
-// 订单列表
+
+// 处理方法2
+const formatStateMap = (arg: number) => {
+  const stateMap = {
+    1: '待付款',
+    2: '待发货',
+    3: '待收货',
+    4: '待评价',
+    5: '已完成',
+    6: '已取消'
+  }
+  return stateMap[arg as keyof typeof stateMap]
+}
+
+// 处理方法1
+// const formatStateMap = (arg: number) => {
+//   const stateMap = {
+//     1: '待付款',
+//     2: '待发货',
+//     3: '待收货',
+//     4: '待评价',
+//     5: '已完成',
+//     6: '已取消'
+//   }
+//   return (stateMap as any)[arg]
+// }
+
+// map映射处理
+// const formatStateMap = (state: number) => {
+//   const stateMap = new Map()
+//   stateMap.set(1, '待付款')
+//   stateMap.set(2, '待发货')
+//   stateMap.set(3, '待收货')
+//   stateMap.set(4, '待评价')
+//   stateMap.set(5, '已完成')
+//   stateMap.set(6, '已取消')
+//   return stateMap.get(state)
+// }
 
 const currentPage = (arg: any) => {
   param.value.page = arg
   orderStore.getOrderList(param.value)
 }
+
+const tabChange = (e: number) => {
+  param.value.orderState = e
+  orderStore.getOrderList(param.value)
+}
+
+const toPay = (arg: string) => {
+  router.push({ path: '/index/payload', query: { id: arg } })
+}
+
 onMounted(() => {
   orderStore.getOrderList(param.value)
 })
@@ -31,7 +81,7 @@ onMounted(() => {
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab切换 -->
       <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
@@ -72,7 +122,7 @@ onMounted(() => {
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ formatStateMap(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>
@@ -89,7 +139,8 @@ onMounted(() => {
                 <p>在线支付</p>
               </div>
               <div class="column action">
-                <el-button v-if="order.orderState === 1" type="primary" size="small">
+                <el-button v-if="order.orderState === 1 && order.countdown > 0" type="primary" size="small"
+                  @click="toPay(order.id)">
                   立即付款
                 </el-button>
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
@@ -102,7 +153,7 @@ onMounted(() => {
                 <p v-if="[4, 5].includes(order.orderState)">
                   <a href="javascript:;">申请售后</a>
                 </p>
-                <p v-if="order.orderState === 1"><a href="javascript:;">取消订单</a></p>
+                <p v-if="order.orderState === 1 && order.countdown > 0"><a href="javascript:;">取消订单</a></p>
               </div>
             </div>
           </div>

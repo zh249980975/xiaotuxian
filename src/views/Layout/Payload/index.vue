@@ -28,7 +28,7 @@ onMounted(() => {
           <p>支付还剩 <span>{{ payloadStore.formatTime }}</span>, 超时后将取消订单</p>
         </div>
         <div class="amount">
-          <span>应付总额：{{ payloadStore.pay?.totalMoney }}</span>
+          <span>应付总额：{{ payloadStore.pay?.payMoney }}</span>
           <span>¥</span>
         </div>
       </div>

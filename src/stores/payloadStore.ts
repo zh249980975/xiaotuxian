@@ -13,7 +13,8 @@ export const usePayloadStore = defineStore('pay', () => {
     payLatestTime: string,
     countdown: number,
     postFee: string,
-    totalMoney: string
+    totalMoney: string,
+    payMoney: number
   }
 
   const pay = ref<orderInfo>()
